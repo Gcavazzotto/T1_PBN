@@ -77,12 +77,21 @@ void efeitoNegativo(Imagem *img) {
 }
 
 void efeitoRaioX(Imagem *img) {
-    float fator = 1.5;
+    float fator = 1.5; // valor entre 1 e 2 para aumentar o contraste
+
     for (int j = 0; j < img->altura; j++) {
         for (int i = 0; i < img->largura; i++) {
+            // Passo 1: calcular o tom de cinza usando a média ponderada
             int cinza = (int)(img->R[j][i] * 0.299 + img->G[j][i] * 0.587 + img->B[j][i] * 0.114);
+
+            // Passo 2: aplicar a curva de intensidade (potência)
             int raioX = (int)(pow(cinza / 255.0, fator) * 255);
+
+            // Garante que o valor fique dentro dos limites
             if (raioX > 255) raioX = 255;
+            if (raioX < 0) raioX = 0;
+
+            // aplica o resultado em todos os canais
             img->R[j][i] = img->G[j][i] = img->B[j][i] = raioX;
         }
     }
