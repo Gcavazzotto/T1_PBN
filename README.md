@@ -2,8 +2,20 @@
 
 Este projeto foi desenvolvido em linguagem C e tem como objetivo **ler arquivos de imagem no formato PPM (P3)** e aplicar transformações como:
 
-- ✅ Inversão horizontal da imagem  
-- ✅ Conversão para tons de cinza (preto e branco)
+
+- ✅ Conversão para preto e branco
+
+- ✅ Conversão para tons de cinza
+
+- ✅ Efeito negativo
+
+- ✅ Efeito raio-x
+
+- ✅ Efeito envelhecido (sépia)
+
+- ✅ Rotação de 90 graus
+
+- ✅ Salvamento com nome personalizado
 
 ---
 
@@ -48,7 +60,7 @@ O programa irá gerar:
 1. Compile o programa:
 
 ```bash
-gcc -o conversor conversor.c
+gcc main.c -o main.exe -lm
 ```
 
 2. Execute:
