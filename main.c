@@ -126,17 +126,26 @@ void efeitoRaioX(Imagem *img) {
 }
 
 void efeitoEnvelhecida(Imagem *img) {
-    float fator = 0.1;
+    float fator = 0.1; // fator pequeno para ajustar as cores
     for (int j = 0; j < img->altura; j++) {
         for (int i = 0; i < img->largura; i++) {
             int r = img->R[j][i];
             int g = img->G[j][i];
             int b = img->B[j][i];
 
-            r = r * (1 + fator) + 10;
-            g = g * (1 + fator) + 10;
-            b = b * (1 - fator) - 10;
+            // Aumentar o Vermelho e o Verde:
+            r = r * (1 + fator); // R = R * (1 + fator)
+            g = g * (1 + fator); // G = G * (1 + fator)
 
+            // Reduzir o Azul:
+            b = b * (1 - fator); // B = B * (1 - fator)
+
+            // Aplicar uma Tintura:
+            r = r + 10; // R = R + 10
+            g = g + 10; // G = G + 10
+            b = b - 10; // B = B - 10
+
+            // Corrigir estouro de limites
             if (r > 255) r = 255;
             if (g > 255) g = 255;
             if (b < 0) b = 0;
