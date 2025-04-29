@@ -36,6 +36,8 @@ Este projeto foi desenvolvido em linguagem C e tem como objetivo **ler arquivos 
 
 ## 🧠 Tecnologias Utilizadas
 
+- **Visual Studio Code**
+      -extençao live share 
 - **Linguagem:** C  
 - **Formato de imagem:** PPM (P3)  
   *(Texto puro, fácil de manipular com `fscanf()` e `fprintf()`)*
@@ -70,7 +72,7 @@ gcc main.c -o main.exe -lm
 ## ✍️ Autor
 
 Desenvolvido por **Guilherme Cavazzotto** e **Gabriel Vieria**
-Contato: [opcional]
+
 
 ---
 
