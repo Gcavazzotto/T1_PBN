@@ -15,6 +15,8 @@ Este projeto foi desenvolvido em linguagem C e tem como objetivo **ler arquivos 
 
 - ✅ Rotação de 90 graus
 
+- ✅ Rotação de 180 graus
+
 - ✅ Salvamento com nome personalizado
 
 ---
@@ -23,29 +25,14 @@ Este projeto foi desenvolvido em linguagem C e tem como objetivo **ler arquivos 
 
 1. O usuário informa o **nome do arquivo de imagem PPM**.
 2. O programa lê os dados RGB da imagem.
-3. Aplica as transformações desejadas:
-   - Inversão horizontal
-   - Conversão para Preto e Branco (Tons de Cinza)
-4. Salva os novos arquivos com os seguintes nomes:
-   - `nomeOriginal_invertido.ppm`
-   - `nomeOriginal_preto&branco.ppm`
+3. Aloca a imagem
+4. Libera Imagem
+5. Carrega imagem
+6. aplica os efeitos desejados
+8. Salva imagem
 
 ---
 
-## 🧪 Exemplo
-
-Se o usuário digitar:
-
-```bash
-golden.ppm
-```
-
-O programa irá gerar:
-
-- `golden_invertido.ppm` → imagem invertida  
-- `golden_preto&branco.ppm` → imagem em tons de cinza
-
----
 
 ## 🧠 Tecnologias Utilizadas
 
@@ -66,7 +53,7 @@ gcc main.c -o main.exe -lm
 2. Execute:
 
 ```bash
-./conversor
+./main.exe
 ```
 
 3. Digite o nome do arquivo `.ppm` quando solicitado.
@@ -82,11 +69,13 @@ gcc main.c -o main.exe -lm
 
 ## ✍️ Autor
 
-Desenvolvido por **Guilherme Cavazzotto**  
+Desenvolvido por **Guilherme Cavazzotto** e **Gabriel Vieria**
 Contato: [opcional]
 
 ---
 
+
+Guia de Consulta para Git Retirado de outro trablho 
 ## 📌 Git - Comandos Básicos
 
 ### 🔧 Configuração inicial

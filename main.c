@@ -1,3 +1,5 @@
+
+//Desenvolvido por **Guilherme Cavazzotto** e **Gabriel Vieria**
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,8 +10,13 @@ typedef struct {
     int **R, **G, **B;
 } Imagem;
 
+
+
+//exemplo de maloc 
+//int *p = malloc(10 * sizeof(int));
+
 void alocarImagem(Imagem *img) {
-    img->R = malloc(img->altura * sizeof(int *));
+    img->R = malloc(img->altura * sizeof(int *)); //cria um vetor de ponteiros (um vetor de linhas).
     img->G = malloc(img->altura * sizeof(int *));
     img->B = malloc(img->altura * sizeof(int *));
     for (int i = 0; i < img->altura; i++) {
@@ -19,7 +26,8 @@ void alocarImagem(Imagem *img) {
     }
 }
 
-void liberarImagem(Imagem *img) {
+void liberarImagem(Imagem *img) {// Em C, toda memória que você aloca com malloc precisa ser liberada manualmente com free.
+   // Se não liberar, acontece vazamento de memória (o programa vai consumindo mais e mais RAM desnecessariamente).
     for (int i = 0; i < img->altura; i++) {
         free(img->R[i]);
         free(img->G[i]);
@@ -76,22 +84,43 @@ void efeitoNegativo(Imagem *img) {
     }
 }
 
+void efeitoRaioX2(Imagem *img) {
+    for (int i = 0; i < img->altura; i++) {
+        for (int j = 0; j < img->largura; j++) {
+            int r = img->R[i][j];
+            int g = img->G[i][j];
+            int b = img->B[i][j];
+
+            // Primeiro converte para cinza usando média ponderada
+            int cinza = (int)(0.299 * r + 0.587 * g + 0.114 * b);
+
+            // Depois faz o negativo desse cinza
+            int raioX = 255 - cinza; // Aqui, 255 é o valor máximo
+
+            // Aplica o raioX igual nos três canais
+            img->R[i][j] = raioX;
+            img->G[i][j] = raioX;
+            img->B[i][j] = raioX;
+        }
+    }
+}
+
 void efeitoRaioX(Imagem *img) {
+    float fator = 1.5; // Pode ajustar entre 1.0 e 2.0
+
     for (int j = 0; j < img->altura; j++) {
         for (int i = 0; i < img->largura; i++) {
-            int r = img->R[j][i];
-            int g = img->G[j][i];
-            int b = img->B[j][i];
+            // Converter para tons de cinza
+            float cinza = img->R[j][i] * 0.299 + img->G[j][i] * 0.587 + img->B[j][i] * 0.114;
 
-            // Inverter as cores como um negativo, mas com peso de contraste
-            img->R[j][i] = (int)(sqrt((255 - r) * 255));
-            img->G[j][i] = (int)(sqrt((255 - g) * 255));
-            img->B[j][i] = (int)(sqrt((255 - b) * 255));
+            // 2. Aplicar transformação de intensidade
+            float raioX = pow(cinza, fator);
 
-            // Limitar o valor máximo a 255
-            if (img->R[j][i] > 255) img->R[j][i] = 255;
-            if (img->G[j][i] > 255) img->G[j][i] = 255;
-            if (img->B[j][i] > 255) img->B[j][i] = 255;
+            // Normalizar para não estourar (garante que fique até 255)
+            if (raioX > 255) raioX = 255;
+
+            // Aplicar o mesmo valor nos três canais
+            img->R[j][i] = img->G[j][i] = img->B[j][i] = (int)raioX;
         }
     }
 }
@@ -180,7 +209,7 @@ void efeitoPretoBranco(Imagem *img) {
         }
     }
 }
-
+//matriz[j][i] = (r*0.299)+(g*0.587)+(b*0.114);
 void efeitoTonsDeCinza(Imagem *img) {
     for (int j = 0; j < img->altura; j++) {
         for (int i = 0; i < img->largura; i++) {
@@ -204,24 +233,26 @@ int main() {
         printf("\nMenu de opções:\n");
         printf("1. Efeito negativo\n");
         printf("2. Efeito raio-X\n");
-        printf("3. Efeito envelhecida\n");
-        printf("4. Girar 90 graus\n");
-        printf("5. Efeito preto e branco\n");
-        printf("6. Efeito tons de cinza\n");
-        printf("7. Salvar imagem\n");
-        printf("8. Girar 180 graus\n");
-        printf("9. Sair\n");
+        printf("3. Efeito raio-X2\n");
+        printf("4. Efeito envelhecida\n");
+        printf("5. Girar 90 graus\n");
+        printf("6. Efeito preto e branco\n");
+        printf("7. Efeito tons de cinza\n");
+        printf("8. Salvar imagem\n");
+        printf("9. Girar 180 graus\n");
+        printf("0. Sair\n");
         printf("Escolha uma opção: ");
         scanf("%d", &opcao);
 
         switch (opcao) {
             case 1: efeitoNegativo(&img); break;
             case 2: efeitoRaioX(&img); break;
-            case 3: efeitoEnvelhecida(&img); break;
-            case 4: rotacionarImagem(&img); break;
-            case 5: efeitoPretoBranco(&img); break;
-            case 6: efeitoTonsDeCinza(&img); break;
-            case 7: {
+            case 3: efeitoRaioX2(&img); break;
+            case 4: efeitoEnvelhecida(&img); break;
+            case 5: rotacionarImagem(&img); break;
+            case 6: efeitoPretoBranco(&img); break;
+            case 7: efeitoTonsDeCinza(&img); break;
+            case 8: {
                 char nomeSaida[100];
                 printf("Digite o nome do arquivo de saída (ex: resultado.ppm): ");
                 scanf("%s", nomeSaida);
@@ -229,11 +260,11 @@ int main() {
                 printf("Imagem salva com sucesso!\n");
                 break;
             }
-            case 8: rotacionar180(&img); break;
-            case 9: printf("Encerrando...\n"); break;
+            case 9: rotacionar180(&img); break;
+            case 0: printf("Encerrando...\n"); break;
             default: printf("Opção inválida.\n");
         }
-    } while (opcao != 9);
+    } while (opcao != 0);
 
     liberarImagem(&img);
     return 0;
